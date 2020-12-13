@@ -1,6 +1,6 @@
 # S.O.L.I.D
 
-There are five principles to follow when we write code with the object oriented programming to make it more readble and maintainable if we doesn't want that our program becomes a clock bomb in our hands. This principles together compose the acronym SOLID that means respectively.
+There are five principles to follow when we write code with object-oriented programming to make it more readable and maintainable if we don't want that our program becomes a clock bomb in our hands. These principles together compose the acronym SOLID that means respectively.
 
  [**S**ingle responsiblity principle.](#srp)
 
@@ -13,7 +13,7 @@ There are five principles to follow when we write code with the object oriented 
 [**D**ependency Inversion Principle.](#dip)
 
 
-Witch one of these principles has a big importance and together it will make the architecture of our code as the acronym says , a solid architecture, something that isn't unstable.
+Each one of these principles has a big importance and together it will make the architecture of our code as the acronym says , a solid architecture, something that isn't unstable.
 
 So, below we will aproach each one of these principles briefly to turn the undestanding less complex.
 
@@ -101,12 +101,13 @@ Below there is an example where we have more thant one responsability for our cl
 ```
 If we try to count it we will realize that there are at least 5 responsibilities that shouldn't be there. So, the person class not must know how to persist itself or how to validate an individual taxpayer identification or how to create and how to use the rabbitMQ  as well.
 
-### The solution
+### The Solution
 
-So we need to segregrate each responsabilitie in different classes so if something change we know that we just need to change in that class and it will not affect the others components and it will make out code more testable and readble. :smiley:
+So we need to segregate each responsibility into different classes so if something change we know that we just need to change in that class and it will not affect the other components and it will make our code more testable and readable. :smiley:
 
 
-The responsabilite of person is provide a valid data.
+The responsibility of the person is to provide valid data.
+
 ```csharp
     public class Person
     {
@@ -123,7 +124,7 @@ The responsabilite of person is provide a valid data.
         }
     }
 ```
-The indentification service has only the responsabilitie of tell us if the ITIN is valid.
+The identification service has only the responsibility to tell us if the ITIN is valid.
 
 ```csharp
   public static class IdentificationService
@@ -152,7 +153,7 @@ In the EventConnectionFactory just to provide us the connection.
     }
 ```
 
-The EventBusService will just only has the behavior of RabbitMQ.
+The EventBusService will just only have  the behavior of RabbitMQ.
 
 ```csharp
  public class EventBusService
@@ -178,7 +179,7 @@ The EventBusService will just only has the behavior of RabbitMQ.
     }
 ```
 
-And finnaly we should use a business class to create our business logic to persist the person data.
+And finally, we should use a business class to create our business logic to persist the person data.
 
 ```csharp
    public class PersonBusiness
@@ -218,11 +219,11 @@ This principle says:
 
 `Objects or entities should be open for extension, but closed for modification.`
 
-A brief summary of it , it means that a class should be easily extendable without modifying the class itself.
+A brief summary of it, it means that a class should be easily extendable without modifying the class itself.
 
-### The problem
+### The Problem
 
-Let's imagine we have a class called Check,and the context of this class is mark a presence.
+Let's imagine we have a class called Check, and the context of this class is mark a presence.
 
 ```csharp
       public class Check
@@ -234,7 +235,7 @@ Let's imagine we have a class called Check,and the context of this class is mark
         public DateTime ExitDate { get; set; }
     }
 ```
-And here we have the type of this check if basically if it's a checkin or a checkout
+And here we have the type of this check if basically if it's a checkin or a checkout.
 
 ```csharp
   public enum CheckTypeEnum
@@ -245,8 +246,7 @@ And here we have the type of this check if basically if it's a checkin or a chec
         OUT
     }
 ```
-And when we try to do something with this data most of programmers be based in the enum type, and if tomorrow there is a new type of check? Probably you are thinking... I just need to put a new enum type e write my code based in this kind of check.
-
+And when we try to do something with this data most of the programmers be based on the enum type, and if tomorrow there is a new type of check? Probably you are thinking... I just need to put a new enum type e write my code based in this kind of check.
 
 ```csharp
    public void Save(Check check)
@@ -280,7 +280,7 @@ In this case we will create a [abstract class](https://docs.microsoft.com/en-us/
 
 And here  is icing on the cake. :cake:
 
-As i said above, we can isolate the business logics for each type of check using inheritance and we can write a new functionality without changing the existent code and it will prevent situations like we are changing something in the class and needs to adapt out depending classes.
+As I said above, we can isolate the business logic for each type of check using inheritance and we can write a new functionality without changing the existent code and it will prevent situations like we are changing something in the class and needs to adapt out depending on classes.
 
 
 ```csharp
@@ -320,7 +320,7 @@ It's better now rigth ? :smile:
 
 The following code approaches it
 
-We have a class **Fruit**, this class has a method that can be overrided
+We have a class **Fruit**, this class has a method that can be overridden.
 
 ```csharp
     public abstract class Fruit
@@ -329,7 +329,7 @@ We have a class **Fruit**, this class has a method that can be overrided
     }
 ```  
 
-Here we have a class Apple that extends fruit 
+Here we have a class Apple that extends fruit.
 
 ```csharp
     public class Apple : Fruit
@@ -338,7 +338,7 @@ Here we have a class Apple that extends fruit
     }
 ```
 
-And here is a class that extends Apple. Pay attention in this situation. If there is a class fruit , and a Apple extends fruit and Orange extends of Apple we can presume that Orange is an Fruit too rigth?
+And here is a class that extends Apple. Pay attention to this situation. If there is a class fruit, and an Apple extends fruit and Orange extends of Apple we can presume that Orange is a Fruit too right?
 
 ```csharp
     public class Orange : Apple
@@ -362,7 +362,7 @@ Now we will run the code below
     }
 ``` 
 
-We will get the following result
+We will get the following result.
 
 
 `An apple is Red`
@@ -370,14 +370,14 @@ We will get the following result
 `An orange is Red`
 
 
-It happens because the orange is using  the apple override and not itself override because we using the Apple inheritance. We must take care when we use inheritance because if the code its not respecting this principle the behavior of the funcionality can be opposite of what we want.
+It happens because the orange is using the apple override and not itself override because we using the Apple inheritance. We must take care when we use inheritance because if the code its not respecting this principle the behavior of the functionality can be the opposite of what we want.
 
 Let's imagine that we are coding an application to throw a missile, in this case, we will throw it to the wrong place and it can be expensive and harmful.
 
 
 ### The solution.
 
-In this case the Orange class just needs to implements the fruit inheritance because we are using a abstract class so  the Orange class will has the itself implementation
+In this case the Orange class just needs to implements the fruit inheritance because we are using a abstract class so  the Orange class will has the itself implementation.
 
 ```csharp
     public class Orange : Fruit
@@ -447,7 +447,7 @@ public class CompanyService : IRegisterService
 
 
  ```
- Let's pay attention in the code below, if you observe an product doesn't has a Tax Id so we was forced to implement it to compile our code bus not necessarialy we have a logic inside of method. 
+Let's pay attention to the code below if you observe a product doesn't have a Tax Id so we were forced to implement it to compile our code bus not necessarily we have logic inside of the method. 
  
  ```csharp
     public class ProductService : IRegisterService
@@ -471,8 +471,7 @@ public class CompanyService : IRegisterService
 
 ``` 
 
-To solve it we just need create an interface for the respective classes.
-
+To solve it we just need to create an interface for the respective classes.
  
  ```csharp
     public interface  IProductService
@@ -495,12 +494,13 @@ This principle says:
 
 `Entities must depend on abstractions not on concretions. It states that the high level module must not depend on the low level module, but they should depend on abstractions.`
 
-This principle basically its about of use interfaces and dependency injection instead  use a class directly. Per example if you are implementing a database persistence and today you use SQL Server but tomorow you need tu use the MongoDB  instead of, you will need to change it in the high level code where it is being used instead of just in the base class because you depends directly, basically we need to decrease coupling of our code.
+This principle basically is about user interfaces and dependency injection instead use a class directly. For example, if you are implementing a database persistence and today you use SQL Server but tomorrow you need to use the MongoDB instead of, you will need to change it in the high-level code where it is being used instead of just in the base class because you depends directly, basically we need to decrease coupling of our code.
+
 
 ### The problem.
 
  
- Here we have a class that use a persistence of SQL Server
+ Here we have a class that uses persistence of SQL Server
  
  ```csharp
     public class SqlServerRepository
@@ -524,7 +524,7 @@ This principle basically its about of use interfaces and dependency injection in
     }
  
  ```
-And here we have the business that use the persistence class, but if you observe it the save method needs to instantiate the repository if it needs to use that.
+And here we have the business that uses the persistence class, but if you observe it the save method needs to instantiate the repository if it needs to use that.
 
 ```csharp
     public class Business
@@ -539,7 +539,7 @@ And here we have the business that use the persistence class, but if you observe
  
  ```
 
- But if i change my persistence to MongoDB per example i will need to rename each place  where it's used because of the class coupling.
+ But if I change my persistence to MongoDB per the example I will need to rename each place where it's used because of the class coupling.
 
  ```csharp
     public class MongoDBRepository
@@ -575,9 +575,9 @@ And here we have the business that use the persistence class, but if you observe
  
  ### The solution.
  
- If we depends of abstractions this database migration will be more easy because we will need just depends of its abstraction.
+ If we depend on abstractions this database migration will be easier.
  
- The first step we need to create an interface
+ The first step we need to create an interface.
  
   ```csharp
     public interface IRepository
@@ -587,15 +587,13 @@ And here we have the business that use the persistence class, but if you observe
  
  ```
  
-And we just need to use inheritance
+And we just need to use inheritance.
  
   ```csharp
         public class MongoDBRepository : IRepository
 
  ```
- 
- 
- And here is the magic. We wont need to instantiate the class by database if we need to change the kind of persistence  we will change it only in one place and it will be in the dependency injection container to make reference to the new persistence.
+And here is the magic. We won't need to instantiate the class by database if we need to change the kind of persistence we will change it only in one place and it will be in the dependency injection container to make reference to the new persistence.
  
  ```csharp
     private readonly IRepository _repository;
@@ -615,11 +613,15 @@ And we just need to use inheritance
  
  ```
 
-Lets image the following situation.
+Let's imagine the following situation.
  
-You use the SqlServerPersistence in almost 50 classes in your application, so you will need to change the instance type in all os these places to use a new kind of persistence, with dependency injection if you depends of just a abstraction and use as Dependency injection you will need just to inherit of the same interface and change it in your DI container.
+You use the SqlServerPersistence in almost 50 classes in your application, so you will need to change the instance type in all os these places to use a new kind of persistence, with dependency injection if you depend on just an abstraction and use as Dependency injection you will need just to inherit of the same interface and change it in your DI container.
  
 [Click here do read more about DI](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0)
+
+ ### Conclusion.
+ 
+The solid principles offer to us many benefits when we are using an oriented object programming language, it becomes our code more readable, stable, and easy to plug a new functionality. Nowadays write a clean and testable code is a requirement of companies to hire, and obviously to evolve the application and don't lose time reading a bad code trying to understand what it does.
 
  
    
