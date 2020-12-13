@@ -1,7 +1,10 @@
 ﻿namespace LSP.Problem
 {
-    public class Apple : Fruit
+    public class Apple 
     {
-        public override string GetColor() => "Red";
+        public virtual string GetColor()
+        {
+            return "Red";
+        }
     }
 }

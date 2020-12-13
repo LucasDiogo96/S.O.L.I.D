@@ -13,11 +13,8 @@ namespace Example
 
         public static void RunProblemExample()
         {
-            LSP.Problem.Fruit fruit = new LSP.Problem.Apple();
+            LSP.Problem.Apple fruit = new LSP.Problem.Orange();
             Console.WriteLine("An apple is " + fruit.GetColor());
-
-            fruit = new LSP.Problem.Orange();
-            Console.WriteLine("An orange is " + fruit.GetColor());
         }
 
         public static void RunSolutionExample()
