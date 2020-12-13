@@ -389,3 +389,182 @@ In this case the Orange class just needs to implements the fruit inheritance bec
 `An apple is Red`
 
 `An orange is Orange`
+
+<div id='isp'/>  
+
+## Innterface segregation principle.
+
+This principle says:
+
+`A client should never be forced to implement an interface that it doesn’t use or clients shouldn’t be forced to depend on methods they do not use.`
+
+Some programmers are very reluctant in a single interface instead of an interface per class and it can be against the principle in the following case:
+
+Here we have a single interface that has the signature of two methods
+
+```csharp
+    public interface IRegisterService
+    {
+        object Get(int Id);
+        Task<object> SearchTaxId(string taxId);
+    }
+``` 
+
+And finnaly we have two classes that will implement it 
+
+ 
+ ```csharp
+public class CompanyService : IRegisterService
+    {
+        public static HttpClient client = new HttpClient();
+
+        public object Get(int Id)
+        {
+            return new
+            {
+                Id = Id,
+                Name = "COMPANY NAME",
+                TradeName = "COMPANY NAME LTDA",
+                IE = "668.284.686.980",
+                TaxId = "17.416.651/0001-60",
+                Email = "diretoria@ritaeedsonconstrucoesltda.com.br"
+            };
+        }
+
+        public async Task<object> SearchTaxId(string taxId)
+        {
+            string token = "xpto";
+
+            string Url = String.Format("https://www.sintegraws.com.br/api/v1/execute-api.php?token={0}&cnpj={1}&plugin=RF", token, taxId);
+
+            var result = await client.GetAsync(Url);
+
+            var content = await result.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject(content);
+        }
+    }
+
+
+ ```
+ Let's pay attention in the code below, if you observe an product doesn't has a Tax Id so we was forced to implement it to compile our code bus not necessarialy we have a logic inside of method. 
+ 
+ ```csharp
+    public class ProductService : IRegisterService
+    {
+        public object Get(int Id)
+        {
+            return new
+            {
+                Id = Id,
+                GTIN = "7891910000197",
+                Price = 12.000,
+                Name = "IPHONE XII"
+            };
+        }
+
+        public async Task<object> SearchTaxId(string taxId)
+        {
+            throw new System.NotImplementedException();
+        }
+    }
+
+``` 
+
+To solve it we just need create an interface for the respective classes.
+
+ 
+ ```csharp
+    public interface  IProductService
+    {
+        object Get(int Id);
+    }
+    
+    public interface ICompanyService
+    {
+        object Get(int Id);
+        Task<object> SearchTaxId(string cnpj);
+    }
+ ```
+
+<div id='dip'/>  
+
+## Dependency Inversion Principle.
+
+This principle says:
+
+`Entities must depend on abstractions not on concretions. It states that the high level module must not depend on the low level module, but they should depend on abstractions.`
+
+This principle basically its about of use interfaces and dependency injection instead  use a class directly. Per example if you are implementing a database persistence and today you use SQL Server but tomorow you need tu use the MongoDB  instead of, you will need to change it in the high level code where it is being used instead of just in the base class because you depends directly, basically we need to decrease coupling of our code.
+
+### The problem.
+
+ 
+ Here we have a class that use a persistence of SQL Server
+ 
+ ```csharp
+    public class SqlServerRepository
+    {
+        public void Save(string name)
+        {
+            string connectionString = "Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;";
+
+            string sql = "insert into Person(name) values (@name)";
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@name", name);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+    }
+ 
+ ```
+And here we have the business that use the persistence class, but if you observe it the save method needs to instantiate the repository if it needs to use that.
+
+```csharp
+    public class Business
+    {
+        public void Save(string name)
+        {
+            SqlServerRepository persistence = new SqlServerRepository();
+
+            persistence.Save(name);
+        }
+    }
+ 
+ ```
+
+ But if i change my persistence to MongoDB per example i will need to rename each place  where it's used because of the class coupling.
+
+ ```csharp
+    public class MongoDBRepository
+    {
+        public void Save(string name)
+        {
+            const string connectionString = "mongodb://localhost:27017";
+
+            var client = new MongoClient(connectionString);
+
+            var database = client.GetDatabase("example");
+
+            //get mongodb collection
+            var collection = database.GetCollection<Entity>("Person");
+            await collection.InsertOneAsync(new Entity { Name = name });
+        }
+    }
+ 
+ ```
+ 
+ ### The solution.
+ 
+ If we depends of abstractions this database migration will be more easy because we will need just depends of its abstraction.
+ 
+ 
+ 
+
+ 
