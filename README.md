@@ -15,7 +15,7 @@ There are five principles to follow when we write code with object-oriented prog
 
 Each one of these principles has a big importance and together it will make the architecture of our code as the acronym says , a solid architecture, something that isn't unstable.
 
-So, below we will aproach each one of these principles briefly to turn the undestanding less complex.
+So, below we will approach each one of these principles briefly to turn the understanding less complex.
 
 <div id='srp'/>  
 
@@ -23,9 +23,9 @@ So, below we will aproach each one of these principles briefly to turn the undes
 
 This principle says:
 
-`A class should have one and only one reason to change`
+`A class should have one and only one reason to change.`
 
-It means that a class must only be responsible for one context, that is, one thing and what isn't of its context will be out of the class.
+It means that a class must only be responsible for one context, that is, one thing, and what isn't of its context will be out of the class.
 
 Below there is an example where we have more thant one responsability for our class.
 
@@ -135,7 +135,7 @@ The identification service has only the responsibility to tell us if the ITIN is
         }
     }
 ```
-In the EventConnectionFactory just to provide us the connection.
+The EventConnectionFactory provides us the connection.
 
 ```csharp
    public class EventConnectionFactory
@@ -153,7 +153,7 @@ In the EventConnectionFactory just to provide us the connection.
     }
 ```
 
-The EventBusService will just only have  the behavior of RabbitMQ.
+The EventBusService will just only have the behavior of RabbitMQ.
 
 ```csharp
  public class EventBusService
@@ -268,8 +268,7 @@ How to solve it?
 
 ### The Solution.
 
-In this case we will create a [abstract class](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/abstract) to isolate our business logics using the a override for each kind of check.
-
+In this case, we will create an [abstract class](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/abstract) to isolate our business logic using an override for each kind of check.
 
 ```csharp
     public abstract class CheckService
@@ -280,7 +279,7 @@ In this case we will create a [abstract class](https://docs.microsoft.com/en-us/
 
 And here  is icing on the cake. :cake:
 
-As I said above, we can isolate the business logic for each type of check using inheritance and we can write a new functionality without changing the existent code and it will prevent situations like we are changing something in the class and needs to adapt out depending on classes.
+As I said above, we can isolate the business logic for each kind of check using inheritance and we can write a new functionality without changing the existent code and it will prevent situations like we are changing something in the class and needs to adapt out depending on kind of class.
 
 
 ```csharp
@@ -310,15 +309,15 @@ This principle says:
 
 `Let q(x) be a property provable about objects of x of type T. Then q(y) should be provable for objects y of type S where S is a subtype of T.`
 
-If you read it you can be confused but translating it for the development world it becomes.
+If you read it you can be confused but translating it for the developers' world it becomes.
 
 `Derived classes must be substitutable for their base classes.`
 
-It's better now rigth ? :smile:
+It's better now right?  :smile:
 
 ### The Problem.
 
-The following code approaches it
+The following code approaches it.
 
 We have a class **Fruit**, this class has a method that can be overridden.
 
@@ -347,8 +346,7 @@ And here is a class that extends Apple. Pay attention to this situation. If ther
     }
 ```  
 
-Now we will run the code below 
-
+Now we will run the code below. 
 
 ```csharp
     public class Orange : Apple
@@ -362,7 +360,7 @@ Now we will run the code below
     }
 ``` 
 
-We will get the following result.
+And we will get the following result.
 
 
 `An apple is Red`
@@ -377,7 +375,7 @@ Let's imagine that we are coding an application to throw a missile, in this case
 
 ### The Solution.
 
-In this case the Orange class just needs to implements the fruit inheritance because we are using a abstract class so  the Orange class will has the itself implementation.
+In this case the Orange class just needs to implements the fruit inheritance because we are using a abstract class so the Orange class will has the itself implementation.
 
 ```csharp
     public class Orange : Fruit
@@ -590,7 +588,7 @@ And here we have the business that uses the persistence class, but if you observ
 And we just need to use inheritance.
  
   ```csharp
-        public class MongoDBRepository : IRepository
+     public class MongoDBRepository : IRepository
 
  ```
 And here is the magic. We won't need to instantiate the class by database if we need to change the kind of persistence we will change it only in one place and it will be in the dependency injection container to make reference to the new persistence.
