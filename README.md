@@ -6,11 +6,12 @@ There are five principles to follow when we write code with the object oriented 
 
 [**O**pen-closed principle.](#ocp)
 
-**L**iskov substitution principle.
+[**L**iskov substitution principle.](#lsp)
 
-**I**nterface segregation principle.
+[**I**nterface segregation principle.](#isp)
 
-**D**ependency Inversion Principle.
+[**D**ependency Inversion Principle.](#dip)
+
 
 Witch one of these principles has a big importance and together it will make the architecture of our code as the acronym says , a solid architecture, something that isn't unstable.
 
@@ -218,3 +219,173 @@ This principle says:
 `Objects or entities should be open for extension, but closed for modification.`
 
 A brief summary of it , it means that a class should be easily extendable without modifying the class itself.
+
+### The problem
+
+Let's imagine we have a class called Check,and the context of this class is mark a presence.
+
+```csharp
+      public class Check
+    {
+        public int Id { get; set; }
+        public CheckTypeEnum Type { get; set; }
+        public string Justification { get; set; }
+        public DateTime EntryDate { get; set; }
+        public DateTime ExitDate { get; set; }
+    }
+```
+And here we have the type of this check if basically if it's a checkin or a checkout
+
+```csharp
+  public enum CheckTypeEnum
+    {
+        [Description("Check-IN")]
+        IN,    
+        [Description("Check-Out")]
+        OUT
+    }
+```
+And when we try to do something with this data most of programmers be based in the enum type, and if tomorrow there is a new type of check? Probably you are thinking... I just need to put a new enum type e write my code based in this kind of check.
+
+
+```csharp
+   public void Save(Check check)
+        {
+            if (check.Type == CheckTypeEnum.IN)
+            {         
+                //DO SOMETHING
+            }
+            else if (check.Type == CheckTypeEnum.OUT)
+            {
+                //DO SOMETHING ELSE
+            }
+        }
+```
+
+It's a bad practice of this because you will modify the code that was already working and it can be dangerous and also you won't make a good unity test.
+
+How to solve it?
+
+### The solution
+
+In this case we will create a [abstract class](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/abstract) to isolate our business logics using the a override for each kind of check.
+
+
+```csharp
+    public abstract class CheckService
+    {
+        public abstract void CreateCheck(Check check);
+    }
+```
+
+And here  is icing on the cake. :cake:
+
+As i said above, we can isolate the business logics for each type of check using inheritance and we can write a new functionality without changing the existent code and it will prevent situations like we are changing something in the class and needs to adapt out depending classes.
+
+
+```csharp
+     public class Checkin : CheckService
+     {
+         public override void CreateCheck(Check check)
+         {
+             //our business rules for a checkout
+         }
+     }
+     
+    public class Checkout : CheckService
+    {
+        public override void CreateCheck(Check check)
+        {
+           //our business rules for a checkout
+        }
+    } 
+    
+```
+
+<div id='lsp'/>  
+
+## Liskov substitution principle.
+
+This principle says:
+
+`Let q(x) be a property provable about objects of x of type T. Then q(y) should be provable for objects y of type S where S is a subtype of T.`
+
+If you read it you can be confused but translating it for the development world it becomes.
+
+`Derived classes must be substitutable for their base classes.`
+
+It's better now rigth ? :smile:
+
+### The problem.
+
+The following code approaches it
+
+We have a class **Fruit**, this class has a method that can be overrided
+
+```csharp
+    public abstract class Fruit
+    {
+        public abstract string GetColor();
+    }
+```  
+
+Here we have a class Apple that extends fruit 
+
+```csharp
+    public class Apple : Fruit
+    {
+        public override string GetColor() => "Red";
+    }
+```
+
+And here is a class that extends Apple. Pay attention in this situation. If there is a class fruit , and a Apple extends fruit and Orange extends of Apple we can presume that Orange is an Fruit too rigth?
+
+```csharp
+    public class Orange : Apple
+    {
+        public override string GetColor() => "Orange";
+    }
+```  
+
+Now we will run the code below 
+
+
+```csharp
+    public class Orange : Apple
+    {
+            Fruit fruit = new Apple();
+            Console.WriteLine("An apple is " + fruit.GetColor());
+         
+            fruit = new Orange();
+            Console.WriteLine("An orange is " + fruit.GetColor());
+        
+    }
+``` 
+
+We will get the following result
+
+
+`An apple is Red`
+
+`An orange is Red`
+
+
+It happens because the orange is using  the apple override and not itself override because we using the Apple inheritance. We must take care when we use inheritance because if the code its not respecting this principle the behavior of the funcionality can be opposite of what we want.
+
+Let's imagine that we are coding an application to throw a missile, in this case, we will throw it to the wrong place and it can be expensive and harmful.
+
+
+### The solution.
+
+In this case the Orange class just needs to implements the fruit inheritance because we are using a abstract class so  the Orange class will has the itself implementation
+
+```csharp
+    public class Orange : Fruit
+    {
+        public override string GetColor() => "Orange";
+    }
+``` 
+
+`An apple is Red`
+
+`An orange is Orange`
