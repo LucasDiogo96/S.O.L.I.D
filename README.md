@@ -445,7 +445,7 @@ public class CompanyService : IRegisterService
 
 
  ```
-Let's pay attention to the code below if you observe a product doesn't have a Tax Id so we were forced to implement it to compile our code bus not necessarily we have logic inside of the method. 
+Let's pay attention to the code below if you observe a product doesn't have a Tax Id so we were forced to implement it to compile our code but not necessarily we have logic inside of the method. 
  
  ```csharp
     public class ProductService : IRegisterService
