@@ -551,9 +551,9 @@ And here we have the business that use the persistence class, but if you observe
             var client = new MongoClient(connectionString);
 
             var database = client.GetDatabase("example");
-
-            //get mongodb collection
+            
             var collection = database.GetCollection<Entity>("Person");
+            
             await collection.InsertOneAsync(new Entity { Name = name });
         }
     }
@@ -564,7 +564,50 @@ And here we have the business that use the persistence class, but if you observe
  
  If we depends of abstractions this database migration will be more easy because we will need just depends of its abstraction.
  
+ The first step we need to create an interface
  
+  ```csharp
+    public interface IRepository
+    {
+        void Save(string name);
+    }
  
+ ```
+ 
+And we just need to use inheritance
+ 
+  ```csharp
+        public class MongoDBRepository : IRepository
 
+ ```
+ 
+ 
+ And here is the magic. We wont need to instantiate the class by database if we need to change the kind of persistence  we will change it only in one place and it will be in the dependency injection container to make reference to the new persistence.
+ 
+ ```csharp
+    private readonly IRepository _repository;
+
+    public class Business
+    {
+        public Business(IRepository repository)
+        {
+            _repository = repository;
+        }
+
+        public void Save(string name)
+        {
+            _repository.Save(name);
+        }
+    }
+ 
+ ```
+
+Lets image the following situation.
+ 
+You use the SqlServerPersistence in almost 50 classes in your application, so you will need to change the instance type in all os these places to use a new kind of persistence, with dependency injection if you depends of just a abstraction and use as Dependency injection you will need just to inherit of the same interface and change it in your DI container.
+ 
+[Click here do read more about DI](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0)
+
+ 
+   
  
