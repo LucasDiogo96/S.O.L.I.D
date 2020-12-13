@@ -560,6 +560,19 @@ And here we have the business that use the persistence class, but if you observe
  
  ```
  
+ ```csharp
+    public class Business
+    {
+        public void Save(string name)
+        {
+            MongoDBRepository persistence = new MongoDBRepository();
+
+            persistence.Save(name);
+        }
+    }
+ 
+ ```
+ 
  ### The solution.
  
  If we depends of abstractions this database migration will be more easy because we will need just depends of its abstraction.
