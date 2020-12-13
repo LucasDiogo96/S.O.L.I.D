@@ -3,3 +3,14 @@
 ################################################################################
 
 /SolidExample/SolidExample/bin/Debug/netcoreapp3.1
+/SolidExample/SolidExample/obj
+/SolidExample/.vs/SolidExample
+/.vs
+/1 - Single Responsibility/bin/Debug/netcoreapp3.1
+/1 - Single Responsibility/obj
+/2 - Open Closed/obj
+/3 - Liskov Substitution/obj
+/4 - Interface Segregation/obj
+/5 - Dependency Inversion/obj
+/3 - Liskov Substitution/bin/Debug/netcoreapp3.1
+/5 - Dependency Inversion/bin/Debug/netcoreapp3.1
