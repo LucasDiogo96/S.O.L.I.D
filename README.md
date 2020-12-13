@@ -29,7 +29,7 @@ It means that a class must only be responsible for one context, that is, one thi
 
 Below there is an example where we have more thant one responsability for our class.
 
-### The problem
+### The Problem.
 
 ```csharp
   /// This class represents a person
@@ -101,7 +101,7 @@ Below there is an example where we have more thant one responsability for our cl
 ```
 If we try to count it we will realize that there are at least 5 responsibilities that shouldn't be there. So, the person class not must know how to persist itself or how to validate an individual taxpayer identification or how to create and how to use the rabbitMQ  as well.
 
-### The Solution
+### The Solution.
 
 So we need to segregate each responsibility into different classes so if something change we know that we just need to change in that class and it will not affect the other components and it will make our code more testable and readable. :smiley:
 
@@ -221,7 +221,7 @@ This principle says:
 
 A brief summary of it, it means that a class should be easily extendable without modifying the class itself.
 
-### The Problem
+### The Problem.
 
 Let's imagine we have a class called Check, and the context of this class is mark a presence.
 
@@ -266,7 +266,7 @@ It's a bad practice of this because you will modify the code that was already wo
 
 How to solve it?
 
-### The solution
+### The Solution.
 
 In this case we will create a [abstract class](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/abstract) to isolate our business logics using the a override for each kind of check.
 
@@ -316,7 +316,7 @@ If you read it you can be confused but translating it for the development world 
 
 It's better now rigth ? :smile:
 
-### The problem.
+### The Problem.
 
 The following code approaches it
 
@@ -375,7 +375,7 @@ It happens because the orange is using the apple override and not itself overrid
 Let's imagine that we are coding an application to throw a missile, in this case, we will throw it to the wrong place and it can be expensive and harmful.
 
 
-### The solution.
+### The Solution.
 
 In this case the Orange class just needs to implements the fruit inheritance because we are using a abstract class so  the Orange class will has the itself implementation.
 
@@ -497,7 +497,7 @@ This principle says:
 This principle basically is about user interfaces and dependency injection instead use a class directly. For example, if you are implementing a database persistence and today you use SQL Server but tomorrow you need to use the MongoDB instead of, you will need to change it in the high-level code where it is being used instead of just in the base class because you depends directly, basically we need to decrease coupling of our code.
 
 
-### The problem.
+### The Problem.
 
  
  Here we have a class that uses persistence of SQL Server
@@ -573,7 +573,7 @@ And here we have the business that uses the persistence class, but if you observ
  
  ```
  
- ### The solution.
+ ### The Solution.
  
  If we depend on abstractions this database migration will be easier.
  
