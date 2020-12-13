@@ -127,7 +127,7 @@ The responsibility of the person is to provide valid data.
 The identification service has only the responsibility to tell us if the ITIN is valid.
 
 ```csharp
-  public static class IdentificationService
+    public static class IdentificationService
     {
         public static bool ValidateITIN(string document)
         {
@@ -138,9 +138,9 @@ The identification service has only the responsibility to tell us if the ITIN is
 The EventConnectionFactory provides us the connection.
 
 ```csharp
-   public class EventConnectionFactory
+    public class EventConnectionFactory
     {
-      public IConnection GetConnection()
+        public IConnection GetConnection()
         {
             return new ConnectionFactory
             {
@@ -156,7 +156,7 @@ The EventConnectionFactory provides us the connection.
 The EventBusService will just only have the behavior of RabbitMQ.
 
 ```csharp
- public class EventBusService
+    public class EventBusService
     {
         public QueueDeclareOk CreateQueue(string queueName, IConnection connection)
         {
@@ -182,7 +182,7 @@ The EventBusService will just only have the behavior of RabbitMQ.
 And finally, we should use a business class to create our business logic to persist the person data.
 
 ```csharp
-   public class PersonBusiness
+    public class PersonBusiness
     {
         const string queueName = "person";
 
@@ -226,7 +226,7 @@ A brief summary of it, it means that a class should be easily extendable without
 Let's imagine we have a class called Check, and the context of this class is mark a presence.
 
 ```csharp
-      public class Check
+    public class Check
     {
         public int Id { get; set; }
         public CheckTypeEnum Type { get; set; }
@@ -238,7 +238,7 @@ Let's imagine we have a class called Check, and the context of this class is mar
 And here we have the type of this check if basically if it's a checkin or a checkout.
 
 ```csharp
-  public enum CheckTypeEnum
+    public enum CheckTypeEnum
     {
         [Description("Check-IN")]
         IN,    
@@ -249,7 +249,7 @@ And here we have the type of this check if basically if it's a checkin or a chec
 And when we try to do something with this data most of the programmers be based on the enum type, and if tomorrow there is a new type of check? Probably you are thinking... I just need to put a new enum type e write my code based in this kind of check.
 
 ```csharp
-   public void Save(Check check)
+        public void Save(Check check)
         {
             if (check.Type == CheckTypeEnum.IN)
             {         
@@ -319,68 +319,63 @@ It's better now right?  :smile:
 
 The following code approaches it.
 
-We have a class **Fruit**, this class has a method that can be overridden.
+We have a class **Apple**, this class has a virtual method that can be extendable for the subclasses.
 
 ```csharp
-    public abstract class Fruit
+     public class Apple 
     {
-        public abstract string GetColor();
+        public virtual string GetColor()
+        {
+            return "Red";
+        }
     }
 ```  
 
-Here we have a class Apple that extends fruit.
-
-```csharp
-    public class Apple : Fruit
-    {
-        public override string GetColor() => "Red";
-    }
-```
-
-And here is a class that extends Apple. Pay attention to this situation. If there is a class fruit, and an Apple extends fruit and Orange extends of Apple we can presume that Orange is a Fruit too right?
+Here we have a class Orange that extends Apple and override the GetColor method.
 
 ```csharp
     public class Orange : Apple
     {
         public override string GetColor() => "Orange";
     }
-```  
+```
 
-Now we will run the code below. 
+Pay attention to this situation. teorally the Orange is an Apple because it extends that and I can instantiate like the code below without problem because both are the same thing.
 
 ```csharp
-    public class Orange : Apple
-    {
-            Fruit fruit = new Apple();
-            Console.WriteLine("An apple is " + fruit.GetColor());
-         
-            fruit = new Orange();
-            Console.WriteLine("An orange is " + fruit.GetColor());
-        
-    }
-``` 
+      Apple fruit = new Orange();
+      Console.WriteLine("An apple is " + fruit.GetColor());
+```  
 
-And we will get the following result.
+Now we will run the code below and we will get the following result.
+
+`An apple is Orange`
 
 
-`An apple is Red`
-
-`An orange is Red`
-
-
-It happens because the orange is using the apple override and not itself override because we using the Apple inheritance. We must take care when we use inheritance because if the code its not respecting this principle the behavior of the functionality can be the opposite of what we want.
+We must take care when we use inheritance because if the code its not respecting this principle the behavior of the functionality can be the opposite of what we want.
 
 Let's imagine that we are coding an application to throw a missile, in this case, we will throw it to the wrong place and it can be expensive and harmful.
 
 
 ### The Solution.
 
-In this case the Orange class just needs to implements the fruit inheritance because we are using a abstract class so the Orange class will has the itself implementation.
+In this case, we should have a generic class between both that we will call Fruit. So, both implement an abstract class fruit and override the GetColor method.
 
 ```csharp
+   
+    public abstract class Fruit
+    {
+        public abstract string GetColor();
+    }
+
     public class Orange : Fruit
     {
         public override string GetColor() => "Orange";
+    }
+    
+    public class Apple : Fruit
+    {
+        public override string GetColor() => "Red";
     }
 ``` 
 
@@ -503,7 +498,7 @@ This principle basically is about user interfaces and dependency injection inste
  ```csharp
     public class SqlServerRepository
     {
-        public void Save(string name)
+        public void Save(Person person)
         {
             string connectionString = "Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;";
 
@@ -514,7 +509,7 @@ This principle basically is about user interfaces and dependency injection inste
                 conn.Open();
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
-                    cmd.Parameters.AddWithValue("@name", name);
+                    cmd.Parameters.AddWithValue("@name", person.Name);
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -525,13 +520,13 @@ This principle basically is about user interfaces and dependency injection inste
 And here we have the business that uses the persistence class, but if you observe it the save method needs to instantiate the repository if it needs to use that.
 
 ```csharp
-    public class Business
+     public class Business
     {
-        public void Save(string name)
+        public void Save(Person person)
         {
             SqlServerRepository persistence = new SqlServerRepository();
 
-            persistence.Save(name);
+            persistence.Save(person);
         }
     }
  
@@ -542,17 +537,17 @@ And here we have the business that uses the persistence class, but if you observ
  ```csharp
     public class MongoDBRepository
     {
-        public void Save(string name)
+        public void Save(Person person)
         {
             const string connectionString = "mongodb://localhost:27017";
 
             var client = new MongoClient(connectionString);
 
             var database = client.GetDatabase("example");
-            
-            var collection = database.GetCollection<Entity>("Person");
-            
-            await collection.InsertOneAsync(new Entity { Name = name });
+
+            var collection = database.GetCollection<Person>("Person");
+
+            collection.InsertOne(new Person { Name = person.Name });
         }
     }
  
@@ -561,11 +556,11 @@ And here we have the business that uses the persistence class, but if you observ
  ```csharp
     public class Business
     {
-        public void Save(string name)
+        public void Save(Person person)
         {
             MongoDBRepository persistence = new MongoDBRepository();
 
-            persistence.Save(name);
+            persistence.Save(person);
         }
     }
  
@@ -580,7 +575,7 @@ And here we have the business that uses the persistence class, but if you observ
   ```csharp
     public interface IRepository
     {
-        void Save(string name);
+          void Save(Person person);
     }
  
  ```
