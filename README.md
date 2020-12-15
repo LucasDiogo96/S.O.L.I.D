@@ -385,7 +385,7 @@ In this case, we should have a generic class between both that we will call Frui
 
 <div id='isp'/>  
 
-## Innterface segregation principle.
+## Interface segregation principle.
 
 This principle says:
 
@@ -616,6 +616,16 @@ You use the SqlServerPersistence in almost 50 classes in your application, so yo
  
 The solid principles offer to us many benefits when we are using an oriented object programming language, it becomes our code more readable, stable, and easy to plug a new functionality. Nowadays write a clean and testable code is a requirement of companies to hire, and obviously to evolve the application and don't lose time reading a bad code trying to understand what it does.
 
- 
-   
+
+### References
+
+[C# Best Practices : Dangers of Violating SOLID Principles in C#](https://docs.microsoft.com/en-us/archive/msdn-magazine/2014/may/csharp-best-practices-dangers-of-violating-solid-principles-in-csharp)
+
+[Interfaces](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/interfaces/)
+
+[Dependency injection](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0)
+
+[Solid Relevance](https://blog.cleancoder.com/uncle-bob/2020/10/18/Solid-Relevance.html)
+
+[Orientação a Objeto – SOLID](https://www.eduardopires.net.br/2013/04/orientacao-a-objeto-solid/)
  
