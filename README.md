@@ -1,14 +1,11 @@
 
-## Applying SOLID Principle with C#
+## Applying SOLID Principles with C#
 
+A practice approach to creating stable software.
 
-Read my article on Medium: [Applying SOLID Principle with C#](https://medium.com/@lucasdiogodasilva/applying-solid-principle-with-c-20b00f6879f6)
+![Don’t make your software unstable like a house of cards, solidify it. [via turbosquid]](https://cdn-images-1.medium.com/max/2000/0*ZF6SSZ2bunVOjtXq.jpg)
 
-A practice approach to create a stable software
-
-![Don’t make your software unstable like a house of cards, solidify it.](https://cdn-images-1.medium.com/max/2000/0*ZF6SSZ2bunVOjtXq.jpg)
-
-There are five principles to follow when we write code with object-oriented programming to make it more readable and maintainable if we don’t want that our program becomes a clock bomb in our hands. These principles together compose the acronym SOLID that means respectively.
+There are five principles to follow when we write code with object-oriented programming to make it more readable and maintainable if we don’t want that our program becomes a clock bomb in our hands. These principles together compose the acronym SOLID which means respectively.
 
 * **S**ingle responsibility principle.
 
@@ -26,7 +23,7 @@ So, below, we will approach each one of these principles briefly to turn the und
 
 ## **Single responsibility principle**
 
-![Don’t have classes that do everything like a Swiss knife, separate responsibilities from it.](https://cdn-images-1.medium.com/max/2000/0*Xx1gcwfEoObCCogU)
+![Don’t have classes that do everything like a Swiss knife, separate responsibilities from it. [via euro-knife]](https://cdn-images-1.medium.com/max/2000/0*Xx1gcwfEoObCCogU)
 
 This principle says:
 
@@ -34,7 +31,7 @@ This principle says:
 
 It means that a class must only be responsible for one context, that is, one thing, and what isn’t of its context will be out of the class.
 
-Below there is an example where we have more than one responsibility for our class.
+Below there is an example where we have more than one responsible for our class.
 
 ### The Problem.
 
@@ -138,7 +135,7 @@ The identification service has only the responsibility to tell us if the ITIN is
             }
     }
 
-The EventConnectionFactory provides us the connection.
+The EventConnectionFactory provides us with the connection.
 
     public class EventConnectionFactory
     {
@@ -210,13 +207,13 @@ And finally, we should use a business class to create our business logic to pers
 
 ## Open-closed Principle
 
-![Close the door to modifications and welcome extensions with open arms.](https://cdn-images-1.medium.com/max/2000/0*_UNhUNl9cGBph0tQ.jpg)
+![Close the door to modifications and welcome extensions with open arms. [via pixelsquid]](https://cdn-images-1.medium.com/max/2000/0*_UNhUNl9cGBph0tQ.jpg)
 
 This principle says:
 
-**Objects or entities should be open for extension, but closed for modification.**
+**Objects or entities should be open for extension but closed for modification.**
 
-A brief summary of it, it means that a class should be easily extendable without modifying the class itself.
+A summary of it, it means that a class should be easily extendable without modifying the class itself.
 
 ### The Problem.
 
@@ -241,7 +238,7 @@ And here we have the type of this check if, basically if it’s a checking or a 
             OUT
      }
 
-And when we try to do something with this data most of the programmers be based on the enum type, and if tomorrow there is a new type of check? Probably you are thinking… I just need to put a new enum type and write my code based in this kind of check.
+And when we try to do something with this data most of the programmers be based on the enum type, and if tomorrow there is a new type of check? Probably you are thinking… I just need to put a new enum type and write my code based on this kind of check.
 
     public void Save(Check check)
     {
@@ -268,9 +265,9 @@ In this case, we will create an [abstract class](https://docs.microsoft.com/en-u
         public abstract void CreateCheck(Check check);
     }
 
-And here is icing on the cake.
+And here is the icing on the cake.
 
-As I said above, we can isolate the business logic for each kind of check using inheritance, and we can write a new functionality without changing the existent code, and it will prevent situations like we are changing something in the class and needs to adapt out depending on the kind of class.
+As I said above, we can isolate the business logic for each kind of check using inheritance, and we can write a new functionality without changing the existing code, and it will prevent situations like we are changing something in the class and needs to adapt out depending on the kind of class.
 
     public class Checkin : CheckService
     {
@@ -280,7 +277,7 @@ As I said above, we can isolate the business logic for each kind of check using 
           }
     }
 
-    public class Checkout : CheckService
+    public class Checkout: CheckService
     {
          public override void CreateCheck(Check check)
          {
@@ -290,13 +287,13 @@ As I said above, we can isolate the business logic for each kind of check using 
 
 ## Liskov substitution principle
 
-![If it looks like a duck, quacks like a duck, but needs batteries. You probably have the wrong abstraction.](https://cdn-images-1.medium.com/max/2000/0*n3p8xQBappHW8jR6)
+![If it looks like a duck, quacks like a duck, but needs batteries. You probably have the wrong abstraction. [via iStock]](https://cdn-images-1.medium.com/max/2000/0*n3p8xQBappHW8jR6)
 
 This principle says:
 
 **Let q(x) be a property provable about objects of x of type T. Then q(y) should be provable for objects y of type S where S is a subtype of T.**
 
-If you read it, you can be confused, but translating it for the developers’ world it becomes.
+If you read it, you can be confused, but translating it into the developers’ world it becomes.
 
 **Derived classes must be substitutable for their base classes.**
 
@@ -316,14 +313,14 @@ We have a class **Apple**, this class has a virtual method that can be extendabl
         }
     }
 
-Here we have a class Orange that extends Apple and override the GetColor method.
+Here we have a class Orange that extends Apple and overrides the GetColor method.
 
-    public class Orange : Apple
+    public class Orange: Apple
     {
         public override string GetColor() => "Orange";
     }
 
-Pay attention to this situation. Theoretically the Orange is an Apple because it extends that, and I can instantiate like the code below without problem because both are the same thing.
+Pay attention to this situation. Theoretically, the Orange is an Apple. It extends that, and I can instantiate like the code below without problem because both are the same thing.
 
     Apple fruit = new Orange();
     Console.WriteLine("An apple is " + fruit.GetColor());
@@ -345,23 +342,23 @@ In this case, we should have a generic class between both that we will call frui
         public abstract string GetColor();
     }
 
-    public class Orange : Fruit
+    public class Orange: Fruit
     {
          public override string GetColor() => "Orange";
     }
 
-    public class Apple : Fruit
+    public class Apple: Fruit
     {
          public override string GetColor() => "Red";
     }
 
-An apple is Red
+An apple is red
 
-An orange is Orange
+Orange is Orange
 
 ## Interface segregation principle
 
-![Don’t force your class to implement interfaces that won’t be used.](https://cdn-images-1.medium.com/max/2000/1*NsK6QT7EoG-Iff1Fd1MpEw.jpeg)
+![Don’t force your class to implement interfaces that won’t be used. [via Mercado Livre]](https://cdn-images-1.medium.com/max/2000/1*NsK6QT7EoG-Iff1Fd1MpEw.jpeg)
 
 This principle says:
 
@@ -369,7 +366,7 @@ This principle says:
 
 Some programmers are very reluctant in a single interface instead of an interface per class, and it can be against the principle in the following case:
 
-Here we have a single interface that has the signature of two methods
+Here we have a single interface that has the signature of two methods.
 
     public interface IRegisterService
     {
@@ -377,9 +374,9 @@ Here we have a single interface that has the signature of two methods
         Task<object> SearchTaxId(string taxId);
     }
 
-And finally we have two classes that will implement it
+And finally, we have two classes that will implement it.
 
-    public class CompanyService : IRegisterService
+    public class CompanyService: IRegisterService
     {
             public static HttpClient client = new HttpClient();
 
@@ -412,9 +409,9 @@ And finally we have two classes that will implement it
 
 Let’s pay attention to the code below if you look, a product doesn’t have a Tax ID, so we were forced to implement it to compile our code but not necessarily we have logic inside the method.
 
-    public class ProductService : IRegisterService
+    public class ProductService: IRegisterService
     {
-            public object Get(int Id)
+            public object Get(intidd)
             {
                 return new
                 {
@@ -446,17 +443,17 @@ To solve it, we just need to create an interface for the respective classes.
 
 ## Dependency Inversion Principle.
 
-![To make our code maintainable, we must rely only on abstractions](https://cdn-images-1.medium.com/max/2000/0*-s_7CCsA9uGCakwd.png)
+![To make our code maintainable, we must rely only on abstractions. [via Wikipedia]](https://cdn-images-1.medium.com/max/2000/0*-s_7CCsA9uGCakwd.png)
 
 This principle says:
 
-**Entities must depend on abstractions not on concretions. It states that the high level module must not depend on the low level module, but they should depend on abstractions.**
+**Entities must depend on abstractions, not on concretions. It states that the high-level module must not depend on the low-level module, but should depend on abstractions.**
 
-This principle basically is about user interfaces and dependency injection instead use a class directly. For example, if you are implementing a database persistence, and today you use SQL Server but tomorrow you need to use the MongoDB instead of, you will need to change it in the high-level code where it is being used instead of just in the base class because you depend on directly, basically we need to decrease coupling of our code.
+This principle is about user interfaces and dependency injection instead use a class directly. For example, if you are implementing a database persistence, and today you use SQL Server but tomorrow you need to use the MongoDB instead, you w need to change it in the high-level code where it is being used instead of just in the base class because you depend on directly, basically we need to decrease coupling of our code.
 
 ### The Problem.
 
-Here we have a class that uses persistence of SQL Server
+Here we have a class that uses the persistence of SQL Server.
 
     public class SqlServerRepository
     {
@@ -531,9 +528,9 @@ In the first step, we need to create an interface.
 
 And we just need to use inheritance.
 
-    public class MongoDBRepository : IRepository
+    public class MongoDBRepository: IRepository
 
-And here is the magic. We won’t need to instantiate the class by database if we need to change the kind of persistence we will change it only in one place, and it will be in the dependency injection container to make reference to the new persistence.
+And here is the magic. We won’t need to instantiate the class by database if we need to change the kind of persistence we will change it only in one place, and it will be in the dependency injection container to refer to the new persistence.
 
     private readonly IRepository _repository;
 
@@ -558,7 +555,7 @@ You use the SqlServerPersistence in almost 50 classes in your application, so yo
 
 ## Conclusion.
 
-The solid principles offer to us many benefits when we are using an oriented object programming language, it becomes our code more readable, stable, and easy to plug a new functionality. Nowadays writes a clean and testable code is a requirement of companies to hire, and obviously to evolve the application and don’t lose time reading a bad code trying to understand what it does.
+The solid principles offer to us many benefits when we are using an oriented object programming language, it becomes our code more readable, stable, and easy to plug a new functionality. Nowadays writing a clean and testable code is a requirement for companies to hire, and obviously to evolve the application and don’t lose time reading a bad code trying to understand what it does.
 
 The code presented in this article can be found on my Github: [https://github.com/LucasDiogo96/S.O.L.I.D](https://github.com/LucasDiogo96/S.O.L.I.D)
 
@@ -566,7 +563,7 @@ The code presented in this article can be found on my Github: [https://github.co
 
 ## References
 
-**C# Best Practices : Dangers of Violating SOLID Principles in C#**: [https://docs.microsoft.com/en-us/archive/msdn-magazine/2014/may/csharp-best-practices-dangers-of-violating-solid-principles-in-csharp](https://docs.microsoft.com/en-us/archive/msdn-magazine/2014/may/csharp-best-practices-dangers-of-violating-solid-principles-in-csharp)
+**C# Best Practice: Dangers of Violating SOLID Principles in C#**: [https://docs.microsoft.com/en-us/archive/msdn-magazine/2014/may/csharp-best-practices-dangers-of-violating-solid-principles-in-csharp](https://docs.microsoft.com/en-us/archive/msdn-magazine/2014/may/csharp-best-practices-dangers-of-violating-solid-principles-in-csharp)
 
 **Interfaces — define behavior for multiple types:** [https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/types/interfaces](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/types/interfaces)
 
